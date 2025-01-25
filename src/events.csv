@@ -1,5 +1,18 @@
-Name,Description,Choice1,Multiplier1,Choice2,Multiplier2
-sample,this is a sample,this is choice 1,"[0, 0, 0, 0]",this choice 2,"[1, 1, 1, 1]"
-,changes! yippeee,,,,
-,,,,,
-,,,,,
+Id,Description,Choice1,Multiplier1,Choice2,Multiplier2,Boolean
+1,You had a long day today with all your academic classes. You are debating whether to dine in to reduce the time you spend out or get takeout and get back to your dorm early.,Dine in,"[0, 5, 0, 0, -5]",Carry out,"[0, -5, 0, 0, 5]",False
+2,You had a bad sleep last night and feel exhausted. You are considering either taking the bus or still walking to class despite your tiredness.,Bus,"[5, 5, 0, 0, -5]",Walk,"[-5, -5, 0, 0, 5]",False
+3,You have a free weekend and are deciding to either participate in a volunteering event with a sustainability club at Purdue or just stay at your dorm chilling.,Volunteer,"[0, 0, 0, 5, -5]",Dorm,"[0, 5, 0, -5, 0]",False
+4,You decided maybe it's time to upgrade to a digital notebook so you don’t have to carry heavy notebooks around campus. Would you like to buy a tablet or stick with paper notes?,Tablet,"[0, 0, -5, 0, 0]",Paper,"[0, 0, 0, -5, 0]",False
+5,"You just ran out of your favorite moisturizer! Are you going to buy one online from Amazon, or in person at Target, or just stop using the product?",Amazon,"[0, 5, -5, 0, -5]",Target,"[0, 5, 0, 0, -5]",False
+6,"You got an offer to join a female community. However, you are hesitant because it is a lot more work and less free time, but it will give you more opportunities in your career in the future.",Join,"[0, -5, 0, 5, 0]",Reject,"[0, 5, 0, -5, 0]",False
+7,"A female professor reached out to you and asked if you would like to join her research. By joining, this research will look great on your resume but reduces your free time.",Accept,"[0, -5, 0, 5, 0]",Reject,"[0, 5, 0, -5, 0]",False
+8,"Instead of studying, you feel like taking a stroll and enjoying the view of campus. Do you want to take a stroll or keep studying?",Stroll,"[5, 5, 0, -5, 0]",Study,"[-5, -5, 0, 5, 0]",False
+9,"You just went to a recycling meeting last week on which trash items belong in the recycling bin. You would like to sort your items, however it does take away time from your free time.",Sort,"[0, -5, 0, 5, 0]",Trash,"[0, 5, 0, -5, 0]",False
+10,"You feel like you are getting busier with the semester, but you also feel like your body is suffering from the stress. Would you like to make your own food or fast food?",Make Food,"[5, 5, -5, 5, 5]",Fast Food,"[-5, -5, 5, -5, -5]",False
+11,You lost your water bottle at the start of the semester. You are deciding if you want to invest in another water bottle or use plastic water bottles.,Bottle,"[0, 0, -5, 5, 0]",Plastic,"[0, 0, 5, -5, 0]",False
+12,"You are currently struggling in your class. This Friday, there is a tutoring session that clashes with your hangout with friends that you planned ahead.",Tutoring,"[0, -5, 0, 5, 0]",Hangout,"[0, 5, 0, -5, 0]",False
+13,"This weekend, you want to participate in a club sports competition that spans two days, but you also have a midterm next week.",Study,"[0, 0, -5, 5, 0]",Compete,"[5, 0, 5, -5, 0]",False
+14,"You saw a flyer about a meditation class and want to attend it because you have been stressed, however it ruins your study plan with your friends.",Meditation,"[5, -5, 0, 0, 0]",Study,"[-5, 5, 0, 0, 0]",False
+15,Cold weather alert! The temperature will drop significantly. Do you want to turn the heater on?,On,"[0, 5, 0, 0, -5]",Off,"[0, -5, 0, 0, 5]",False
+16,"Because of your lack of happiness, you became anxious and had a mental breakdown. You are forced to take a break from academics to recover.",Break,"[0, 5, -5, 0, 0]",Null,"[0, 0, 0, 0, 0]",False
+17,"Due to neglecting academics, you are now failing a class. You could focus on studying or continue your normal routine.",Focus,"[0, -5, 5, 0, -5]",Normal,"[0, 5, -5, 0, 5]",False
