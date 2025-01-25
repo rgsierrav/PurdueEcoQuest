@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PurdueEcoQuest</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 h-screen flex items-center justify-center">
+<div class="bg-gray-800 p-10 rounded-lg shadow-lg w-1/2">
+  <div id="name-section">
+    <h1 class="text-3xl text-white font-bold mb-4">PurdueEcoQuest</h1>
+    <p class="text-lg text-gray-300 mb-6">Make choices to navigate life's challenges and achieve success.</p>
+    <input type="text" id="name" class="w-full p-2 mb-4 bg-gray-700 text-white border border-gray-600 rounded-lg" placeholder="Enter your name">
+    <button class="w-full p-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-200" onclick="startGame()">Continue</button>
+  </div>
+  <div id="game-output" class="hidden">
+    <h2 class="text-2xl text-white font-bold mt-4"></h2>
+    <p class="text-lg text-white font-bold mb-2" id="balance-display"></p>
+    <textarea class="w-full h-64 p-2 bg-gray-700 text-white border border-gray-600 rounded-lg" readonly id="output-textarea"></textarea>
+    <button class="w-full p-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-200 mt-4" onclick="continueGame()">Continue to next week</button>
+    <div id="choices" class="flex flex-col mt-4">
+      <button id="go-to-college" class="w-full p-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-200 mb-2" onclick="goToCollege()">Attend College (+20 Academics, +10 Happiness, -$5000)</button>
+      <button id="get-job" class="w-full p-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-200 mb-2" onclick="getJob()">Get a Job (+10 Happiness, +$1000)</button>
+      <button id="start-business" class="w-full p-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-200" onclick="startBusiness()">Start a Business (+20 Academics, +10 Happiness, +$5000)</button>
+    </div>
+    <div class="flex flex-col mt-8">
+      <div class="mb-4">
+        <p class="text-lg text-white font-bold mb-2">Happiness: <span id="happiness">50</span></p>
+        <div class="bg-gray-700 h-4 w-full rounded-lg">
+          <div class="bg-blue-600 h-4 rounded-lg" style="width: 50%" id="happiness-bar"></div>
+        </div>
+      </div>
+      <div class="mb-4">
+        <p class="text-lg text-white font-bold mb-2">Health: <span id="health">50</span></p>
+        <div class="bg-gray-700 h-4 w-full rounded-lg">
+          <div class="bg-green-600 h-4 rounded-lg" style="width: 50%" id="health-bar"></div>
+        </div>
+      </div>
+      <div>
+        <p class="text-lg text-white font-bold mb-2">Academics: <span id="academics">50</span></p>
+        <div class="bg-gray-700 h-4 w-full rounded-lg">
+          <div class="bg-blue-600 h-4 rounded-lg" style="width: 50%" id="academics-bar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let week = 1;
+  let name;
+  let balance = 1000;
+  let happiness = 50;
+  let health = 50;
+  let academics = 50;
+  let outputText = '';
+  let choiceMade = false;
+
+  function startGame() {
+    name = document.getElementById('name').value;
+    const nameSection = document.getElementById('name-section');
+    const gameOutput = document.getElementById('game-output');
+    nameSection.classList.add('hidden');
+    gameOutput.classList.remove('hidden');
+    outputText = `Welcome to PurdueEcoQuest, ${name}! You are now 18 years old and ready to start your life. You have $${balance} in your bank account. What do you want to do?`;
+    document.getElementById('output-textarea').innerHTML = outputText;
+    document.getElementById('output-textarea').scrollTop = document.getElementById('output-textarea').scrollHeight;
+    document.getElementById('happiness').innerHTML = happiness;
+    document.getElementById('happiness-bar').style.width = `${happiness}%`;
+    document.getElementById('health').innerHTML = health;
+    document.getElementById('health-bar').style.width = `${health}%`;
+    document.getElementById('academics').innerHTML = academics;
+    document.getElementById('academics-bar').style.width = `${academics}%`;
+    document.getElementById('balance-display').innerHTML = `Balance: $${balance}`;
+    updateButtonStates();
+  }
+
+  function goToCollege() {
+    if (balance >= 5000) {
+      balance -= 5000;
+      academics = Math.min(academics + 20, 100);
+      happiness = Math.min(happiness + 10, 100);
+      health = Math.min(health + 5, 100);
+      outputText += `\n\nYou decided to attend college. You now have $${balance} in your bank account.`;
+      document.getElementById('output-textarea').innerHTML = outputText;
+      document.getElementById('output-textarea').scrollTop = document.getElementById('output-textarea').scrollHeight;
+      document.getElementById('happiness').innerHTML = happiness;
+      document.getElementById('happiness-bar').style.width = `${happiness}%`;
+      document.getElementById('health').innerHTML = health;
+      document.getElementById('health-bar').style.width = `${health}%`;
+      document.getElementById('academics').innerHTML = academics;
+      document.getElementById('academics-bar').style.width = `${academics}%`;
+      document.getElementById('balance-display').innerHTML = `Balance: $${balance}`;
+      choiceMade = true;
+      updateButtonStates();
+    } else {
+      alert("You don't have enough money to attend college.");
+    }
+  }
+
+  function getJob() {
+    balance += 1000;
+    happiness = Math.min(happiness + 10, 100);
+    health = Math.min(health + 5, 100);
+    outputText += `\n\nYou decided to get a job. You now have $${balance} in your bank account.`;
+    document.getElementById('output-textarea').innerHTML = outputText;
+    document.getElementById('output-textarea').scrollTop = document.getElementById('output-textarea').scrollHeight;
+    document.getElementById('happiness').innerHTML = happiness;
+    document.getElementById('happiness-bar').style.width = `${happiness}%`;
+    document.getElementById('health').innerHTML = health;
+    document.getElementById('health-bar').style.width = `${health}%`;
+    document.getElementById('balance-display').innerHTML = `Balance: $${balance}`;
+    choiceMade = true;
+    updateButtonStates();
+  }
+
+  function startBusiness() {
+    balance += 5000;
+    academics = Math.min(academics + 20, 100);
+    happiness = Math.min(happiness + 10, 100);
+    health = Math.min(health + 5, 100);
+    outputText += `\n\nYou decided to start a business. You now have $${balance} in your bank account.`;
+    document.getElementById('output-textarea').innerHTML = outputText;
+    document.getElementById('output-textarea').scrollTop = document.getElementById('output-textarea').scrollHeight;
+    document.getElementById('happiness').innerHTML = happiness;
+    document.getElementById('happiness-bar').style.width = `${happiness}%`;
+    document.getElementById('health').innerHTML = health;
+    document.getElementById('health-bar').style.width = `${health}%`;
+    document.getElementById('academics').innerHTML = academics;
+    document.getElementById('academics-bar').style.width = `${academics}%`;
+    document.getElementById('balance-display').innerHTML = `Balance: $${balance}`;
+    choiceMade = true;
+    updateButtonStates();
+  }
+
+  function continueGame() {
+    if (choiceMade) {
+      week++;
+      outputText += `\n\nWeek ${week}:`;
+      document.getElementById('output-textarea').innerHTML = outputText;
+      document.getElementById('output-textarea').scrollTop = document.getElementById('output-textarea').scrollHeight;
+      choiceMade = false;
+      updateButtonStates();
+    } else {
+      alert("Please make a choice before continuing to the next week.");
+    }
+  }
+
+  function updateButtonStates() {
+    const goToCollegeButton = document.getElementById('go-to-college');
+    const getJobButton = document.getElementById('get-job');
+    const startBusinessButton = document.getElementById('start-business');
+
+    if (balance >= 5000) {
+      goToCollegeButton.classList.remove('opacity-50', 'cursor-not-allowed');
+    } else {
+      goToCollegeButton.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+
+    getJobButton.classList.remove('opacity-50', 'cursor-not-allowed');
+
+    startBusinessButton.classList.remove('opacity-50', 'cursor-not-allowed');
+  }
+</script>
+</body>
+</html>
