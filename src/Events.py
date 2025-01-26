@@ -105,7 +105,10 @@ def get_event():
         curr_event = events.iloc[3].tolist()
     else:  # Select a random event
         rand_event_index = random.randint(4, len(events) - 1)
+        while (bool(events.iloc[rand_event_index][6]) == True):
+            rand_event_index = random.randint(4, len(events) - 1)
         curr_event = events.iloc[rand_event_index].tolist()
+        events.loc[rand_event_index, 'Boolean'] = True
 
     curr_event = make_serializable(curr_event)  # Ensure JSON serializability
 
