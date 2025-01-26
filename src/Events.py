@@ -10,7 +10,7 @@ week = 0
 
 # Load CSV file into Pandas DataFrame
 try:
-    events = pd.read_csv("/home/rsierrav/mysite/events.csv")
+    events = pd.read_csv("/events.csv")
 except FileNotFoundError:
     raise Exception("Error: events.csv not found at the specified path.")
 except pd.errors.ParserError:
