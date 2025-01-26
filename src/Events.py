@@ -121,4 +121,44 @@ def get_event():
 
 # Summary of the game
 def summary():
-    return f"Game Over! Final Stats - Health: {stats[0]}, Happiness: {stats[1]}, Money: {stats[2]}, Academics: {stats[3]}, EcoPoints: {stats[4]}"
+    blurb = "Your semester has come to an end! Let's discuss where you ended. \n\n"
+
+    blurb += f"Your academic score was {stats[3]}. "
+    if (stats[3] >= 80):
+        blurb += f"You ended the semester strong, and even got semester honors! \n\n"
+    elif (stats[3] >= 50):
+        blurb += "Classes where a little tough, but you made it through! \n\n"
+    else:
+        blurb += "You really struggled with academics, but now you are prepared for better decisions next semester. \n\n"
+
+    blurb +=  f"Your EcoPoints score was {stats[4]}. "
+    if (stats[4] >= 30):
+        blurb += "You practiced very eco friendly habits! Great job! \n\n"
+    elif (stats[4] >= 0):
+        blurb += "You weren't the most eco friendly person, but you weren't harming anyone. \n\n"
+    else:
+        blurb += "You did not practice being eco friendly. Try to work on it next time! \n\n"
+
+    blurb +=  f"Your happiness score was {stats[1]}. "
+    if (stats[1] >= 80):
+        blurb += "You had a great time this semester! Way to go! \n\n"
+    elif (stats[1] >= 50):
+        blurb += "Moving in was scary, but you found your place! \n\n"
+    else:
+        blurb += "This semester was rough. \n\n"
+
+    blurb +=  f"Your health score was {stats[0]}. "
+    if (stats[0] >= 80):
+        blurb += "You practiced very healthy habits! Great job! \n\n"
+    elif (stats[0] >= 50):
+        blurb += "You weren't the healthiest, but you weren't super unhealthy. \n\n"
+    else:
+        blurb += "Your health really took a toll this semester. \n\n"
+
+    blurb +=  f"You ended with ${stats[3]}. "
+    if (stats[3] > 0):
+        blurb += "You are glad you saved a little. \n\n"
+    else:
+        blurb += "Hopefully you make some money over break. \n\n"
+
+    return blurb

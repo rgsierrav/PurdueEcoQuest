@@ -65,6 +65,16 @@ document.addEventListener("DOMContentLoaded", () => {
         eventDescription.textContent = data.Description || "No description available.";
         choice1Button.textContent = data.Choice1 || "Option 1";
         choice2Button.textContent = data.Choice2 || "Option 2";
+
+        // Hide the choice buttons if "Summary"
+        if (data.Name === "Summary") {
+            choice1Button.style.display = "none";
+            choice2Button.style.display = "none";
+        } else {
+            choice1Button.style.display = "inline-block";
+            choice2Button.style.display = "inline-block";
+        }
+
     }
 
     // Update Stats
