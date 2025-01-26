@@ -38,17 +38,22 @@ def make_serializable(data):
 # Start the game
 def start():
     global stats, week, curr_event
-    stats = [90, 80, 0, 50, 0]  # Initialize stats [health, happiness, money, academics, ecopoints]
+    stats = [90, 80, 0, 50, 0]  # Initialize stats
     stats[2] = random.randint(20, 50)  # Randomize starting money
     week = 1
     curr_event = events.iloc[0].tolist()
-    curr_event = make_serializable(curr_event)  # Ensure JSON serializability
+    curr_event = make_serializable(curr_event)  # Ensure JSON-serializable format
 
     return jsonify({
         "Name": curr_event[0],
         "Description": curr_event[1],
         "Choice1": curr_event[2],
         "Choice2": curr_event[4],
+        "Health": stats[0],
+        "Happiness": stats[1],
+        "Money": stats[2],
+        "Academics": stats[3],
+        "EcoPoints": stats[4],
     })
 
 # Handle player choices
