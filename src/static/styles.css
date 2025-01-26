@@ -1,0 +1,119 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #12100d ; /* Purdue gold */
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+h1, h2, h3 {
+    color: #231F20; /* Purdue black */
+}
+
+#game-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #FFF;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#start-button {
+    background-color: #D4AF37; /* Purdue black */
+    color: #231F20; /* Purdue gold */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#start-button:hover {
+    background-color: #4B4A47; /* Darker black for hover */
+}
+
+button {
+    background-color: #231F20; /* Purdue black */
+    color: #F1E6A5; /* Purdue gold */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #4B4A47; /* Darker black for hover */
+}
+
+button:focus {
+    outline: none;
+}
+
+/* Event Section */
+#event-section {
+    margin-top: 30px;
+}
+
+#event-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #231F20; /* Purdue black */
+    margin-bottom: 10px;
+}
+
+#event-description {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #333; /* Darker text for readability */
+}
+
+/* Stats Section */
+#stats-section {
+    margin-top: 40px;
+    font-size: 1.2em;
+    color: #231F20; /* Purdue black */
+}
+
+#stats-section p {
+    margin: 5px 0;
+}
+
+#stats-section span {
+    font-weight: bold;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    #game-container {
+        padding: 20px;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    #event-title {
+        font-size: 1.3em;
+    }
+
+    #event-description {
+        font-size: 1.1em;
+    }
+
+    #stats-section {
+        font-size: 1em;
+    }
+}
