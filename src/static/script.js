@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 updateEvent(data); // Update event details from the backend
                 updateStats(data); // Update stats from the backend response
                 eventSection.style.display = "block"; // Show the event section
+                startButton.style.display = "none";
             })
             .catch((error) => console.error("Error starting game:", error));
     });
@@ -68,10 +69,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Update Stats
     function updateStats(data) {
-        stats.health.textContent = data.Health || 0;
-        stats.happiness.textContent = data.Happiness || 0;
+        const updateBar = (barId, value) => {
+            const bar = document.getElementById(barId);
+            bar.style.width = `${Math.min(value, 100)}%`; // Ensure the width doesn't exceed 100%
+        };
+        updateBar("health-bar", data.Health || 0);
+        updateBar("happiness-bar", data.Happiness || 0);
+        updateBar("academics-bar", data.Academics || 0);
+
         stats.money.textContent = data.Money || 0;
-        stats.academics.textContent = data.Academics || 0;
         stats.ecopoints.textContent = data.EcoPoints || 0;
     }
 });
