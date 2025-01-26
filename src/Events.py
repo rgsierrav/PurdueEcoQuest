@@ -7,6 +7,42 @@ import random
     will intialize stats to [95, 80, random, 50, 0]
     
 """
+
+class Game:
+    global stats
+    global events
+    def __init__(self):
+        # [health, happiness, money, academics, EcoPoints]
+        self.stats = [95, 80, 0, 50, 0]
+        # setting money as random
+        stats[2] = random.randint(20, 300)
+
+        self.events = pd.read_csv("events.csv")
+
+        #TODO return move-in info
+
+
+    # Will return string to send to javascript
+    def get_event(self):
+        #if health is too low
+        if (stats[0] < 15):
+            ## TODO: trigger sick
+        #if happiness is too low
+        elif (stats[1] < 30):
+            ## TODO: trigger breakdown
+        # if academics too low
+        elif (stats[3] < 20):
+            ## TODO: trigger academic probation warning
+        else:
+            ##TODO: pick random event
+
+    def update_stats(self, event_num, choice):
+        event = events.
+
+#TODO: create start(), get_event(), get_stats(), update_stats() func
+
+
+
 def PurdueEcoQuest():
     # [health, happiness, money, academics, EcoPoints]
     stats = [95, 80, 0, 50, 0]
@@ -38,8 +74,6 @@ def PurdueEcoQuest():
     update_stats will update stats with modifiers and return new list
 """
 def update_stats(currstats, modifier):
-    # sequentially update stats appropriately
-
     #update health
     currstats[0] += modifier[0]
     if (currstats[0] < 0):
