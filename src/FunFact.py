@@ -1,10 +1,10 @@
 import os
 from groq import Groq
 
-def make_chat():
+def make_chat(query):
 
     # Create the Groq client
-    client = Groq(api_key="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", )
+    client = Groq(api_key=os.environ.get("GROQ_API_KEY"), )
 
     # Set the system prompt
     system_prompt = {
@@ -18,7 +18,7 @@ def make_chat():
 
     while True:
         # Get user input from the console
-        user_input = input("You: ")
+        user_input = query
 
         # Append the user input to the chat history
         chat_history.append({"role": "user", "content": user_input})
@@ -33,12 +33,18 @@ def make_chat():
             "content": response.choices[0].message.content
         })
         # Print the response
-        print("Assistant:", response.choices[0].message.content)
+        return(response.choices[0].message.content)
+
+def get_fun_fact(query):
+    return make_chat(query)
+
+
 
 """
 def main():
     # Your main program logic goes here
-    make_chat()
+    print(get_fun_fact("test"))
 
 if __name__ == "__main__":
-    main()"""
+    main()
+"""
