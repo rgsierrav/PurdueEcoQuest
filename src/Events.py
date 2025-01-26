@@ -8,6 +8,7 @@ events = pd.read_csv("events.csv")
 global curr_event
 global week
 def start():
+    global week
     #[health, happiness, money, academics, ecopoints]
     stats = [90, 80, 0, 50, 0]
     #their money is randomized
@@ -69,14 +70,15 @@ def choice_made(choice):
         {
             "Health": stats[0],
             "Happiness": stats[1],
-            "Money" : stats[2],
-            "Academics" : stats[3],
-            "EcoPoints" : stats[4],
+            "Money": stats[2],
+            "Academics": stats[3],
+            "EcoPoints": stats[4],
         }
     )
 
 def get_event():
     #check if semester is over
+    global week
     if (week > 16):
         return jsonify(
             {
