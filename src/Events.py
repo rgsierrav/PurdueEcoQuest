@@ -1,123 +1,116 @@
 import pandas as pd
 import random
-
 from flask import jsonify
 
+# Global Variables
 stats = []
-events = pd.read_csv("events.csv")
-curr_event = None
+events = []
+curr_event = []
 week = 0
+
+# Load CSV file into Pandas DataFrame
+try:
+    events = pd.read_csv("/home/rsierrav/mysite/events.csv")
+except FileNotFoundError:
+    raise Exception("Error: events.csv not found at the specified path.")
+except pd.errors.ParserError:
+    raise Exception("Error: Unable to parse events.csv. Please check the file format.")
+
+# Helper function to ensure all data is JSON serializable
+def make_serializable(data):
+    """
+    Ensure all elements in a list are JSON-serializable by converting
+    non-standard types (e.g., int64, float64, Timestamp) to standard Python types.
+    """
+    serializable_data = []
+    for x in data:
+        if isinstance(x, (pd.Timestamp, pd.Timedelta)):
+            serializable_data.append(str(x))  # Convert Pandas Timestamps to strings
+        elif isinstance(x, (int, float, str)):
+            serializable_data.append(x)  # Keep standard types as is
+        else:
+            try:
+                serializable_data.append(x.item())  # Convert NumPy types to native Python types
+            except AttributeError:
+                serializable_data.append(x)  # Keep as is if no conversion is possible
+    return serializable_data
+
+# Start the game
 def start():
-    global week
-    global stats
-    global curr_event
-    #[health, happiness, money, academics, ecopoints]
-    stats = [90, 80, 0, 50, 0]
-    #their money is randomized
-    stats[2] = random.randint(20, 50)
+    global stats, week, curr_event
+    stats = [90, 80, 0, 50, 0]  # Initialize stats [health, happiness, money, academics, ecopoints]
+    stats[2] = random.randint(20, 50)  # Randomize starting money
     week = 1
-
-    #set move-in to curr_event
     curr_event = events.iloc[0].tolist()
+    curr_event = make_serializable(curr_event)  # Ensure JSON serializability
 
-    return jsonify(
-        {
-            "Name": curr_event[0],
-            "Description": curr_event[1],
-            "Choice1" : curr_event[2],
-            "Choice2" : curr_event[4],
-        }
-    )
+    return jsonify({
+        "Name": curr_event[0],
+        "Description": curr_event[1],
+        "Choice1": curr_event[2],
+        "Choice2": curr_event[4],
+    })
 
+# Handle player choices
 def choice_made(choice):
-    global stats
-    modifiers = None
-    if (choice == 1):
-        modifiers = curr_event[3].tolist()
-    else:
-        modifiers = curr_event[5].tolist()
+    global stats, curr_event
+    if not curr_event or not stats:
+        return jsonify({"error": "Game not started. Please start the game first."}), 400
 
-    modifiers = modifiers.split(",")
+    # Get modifiers based on the choice made
+    modifiers = curr_event[3] if choice == 1 else curr_event[5]
+    modifiers = modifiers.split(",")  # Split the modifiers into a list of strings
+    modifiers = [int(mod) for mod in modifiers]  # Convert all modifiers to integers
 
-    # now update stats
-    # health
-    stats[0] += int(modifiers[0])
-    if stats[0] > 100:
-        stats[0] = 100
-    elif stats[0] < 0:
-        stats[0] = 0
+    # Update stats based on modifiers
+    stats[0] = max(0, min(100, stats[0] + modifiers[0]))  # Health
+    stats[1] = max(0, min(100, stats[1] + modifiers[1]))  # Happiness
+    stats[2] = max(0, stats[2] + modifiers[2])            # Money
+    stats[3] = max(0, min(100, stats[3] + modifiers[3]))  # Academics
+    stats[4] += modifiers[4]                              # EcoPoints
 
-    #happiness
-    stats[1] += int(modifiers[1])
-    if stats[1] > 100:
-        stats[1] = 100
-    elif stats[1] < 0:
-        stats[1] = 0
+    return jsonify({
+        "Health": stats[0],
+        "Happiness": stats[1],
+        "Money": stats[2],
+        "Academics": stats[3],
+        "EcoPoints": stats[4],
+    })
 
-    #money
-    stats[2] += int(modifiers[2])
-    if stats[2] < 0:
-        stats[2] = 0
-
-    # academics
-    stats[3] += int(modifiers[3])
-    if stats[3] > 100:
-        stats[3] = 100
-    elif stats[3] < 0:
-        stats[3] = 0
-
-    # ecopoints
-    stats[4] += int(modifiers[4])
-
-    return jsonify(
-        {
-            "Health": stats[0],
-            "Happiness": stats[1],
-            "Money": stats[2],
-            "Academics": stats[3],
-            "EcoPoints": stats[4],
-        }
-    )
-
+# Get the next event
 def get_event():
-    #check if semester is over
-    global week
-    global curr_event
-    if (week > 16):
-        return jsonify(
-            {
-                "Name": "Summary",
-                "Desciption" : summary(),
-            }
-        )
+    global week, curr_event, stats
+    if not stats:
+        return jsonify({"error": "Game not started. Please start the game first."}), 400
+
+    if week > 16:  # Check if the semester is over
+        return jsonify({
+            "Name": "Summary",
+            "Description": summary(),
+        })
 
     week += 1
 
-    #if health is too low
-    if (stats[0] < 15):
+    # Check conditions to select the next event
+    if stats[0] < 15:  # Health is too low
         curr_event = events.iloc[1].tolist()
-    #if happiness is too low
-    elif (stats[1] < 30):
+    elif stats[1] < 30:  # Happiness is too low
         curr_event = events.iloc[2].tolist()
-    # if academics too low
-    elif (stats[3] < 20):
+    elif stats[3] < 20:  # Academics are too low
         curr_event = events.iloc[3].tolist()
-    else:
-        rand_event_index = random.randint(4, len(events))
+    else:  # Select a random event
+        rand_event_index = random.randint(4, len(events) - 1)
         curr_event = events.iloc[rand_event_index].tolist()
 
-    return jsonify(
-        {
-            "Name": curr_event[0],
-            "Description": curr_event[1],
-            "Choice1" : curr_event[2],
-            "Choice2" : curr_event[4],
-        }
-    )
+    curr_event = make_serializable(curr_event)  # Ensure JSON serializability
 
+    return jsonify({
+        "Name": curr_event[0],
+        "Description": curr_event[1],
+        "Choice1": curr_event[2],
+        "Choice2": curr_event[4],
+    })
 
+# Summary of the game
 def summary():
-    sum = ""
-
-
-    return sum
+    return f"Game Over! Final Stats - Health: {stats[0]}, Happiness: {stats[1]}, Money: {stats[2]}, Academics: {stats[3]}, EcoPoints: {stats[4]}"
