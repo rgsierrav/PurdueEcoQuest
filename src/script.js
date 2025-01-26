@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ecopoints: document.getElementById("ecopoints"),
     };
 
-
     const eventTitle = document.getElementById("event-title");
     const eventDescription = document.getElementById("event-description");
 
@@ -20,21 +19,20 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch("/start_game", { method: "POST" })
             .then((response) => response.json())
             .then((data) => {
-                updateEvent(data);
-                resetStats();
-                eventSection.style.display = "block";
+                updateEvent(data); // Update event details from the backend
+                updateStats(data); // Update stats from the backend response
+                eventSection.style.display = "block"; // Show the event section
             })
             .catch((error) => console.error("Error starting game:", error));
     });
-
 
     // Handle Choice 1
     choice1Button.addEventListener("click", () => {
         fetch("/choice_1", { method: "POST" })
             .then((response) => response.json())
             .then((data) => {
-                updateStats(data);
-                getNewEvent();
+                updateStats(data); // Update stats after making choice 1
+                getNewEvent(); // Fetch a new event
             })
             .catch((error) => console.error("Error handling choice 1:", error));
     });
@@ -44,8 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch("/choice_2", { method: "POST" })
             .then((response) => response.json())
             .then((data) => {
-                updateStats(data);
-                getNewEvent();
+                updateStats(data); // Update stats after making choice 2
+                getNewEvent(); // Fetch a new event
             })
             .catch((error) => console.error("Error handling choice 2:", error));
     });
@@ -55,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch("/new_event", { method: "POST" })
             .then((response) => response.json())
             .then((data) => {
-                updateEvent(data);
+                updateEvent(data); // Update the event details from the backend
             })
             .catch((error) => console.error("Error fetching new event:", error));
     }
@@ -75,16 +73,5 @@ document.addEventListener("DOMContentLoaded", () => {
         stats.money.textContent = data.Money || 0;
         stats.academics.textContent = data.Academics || 0;
         stats.ecopoints.textContent = data.EcoPoints || 0;
-    }
-
-    // Reset Stats (to clear any previous values)
-    function resetStats() {
-        updateStats({
-            Health: 90,
-            Happiness: 80,
-            Money: Math.floor(Math.random() * (50 - 20 + 1)) + 20, // Random between 20-50
-            Academics: 50,
-            EcoPoints: 0,
-        });
     }
 });
