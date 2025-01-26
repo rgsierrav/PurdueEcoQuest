@@ -9,4 +9,4 @@ app = Flask(__name__)
 
 @app.route("/start_game", methods=['POST'])
 def start_game():
-    e.PurdueEcoQuest()
+

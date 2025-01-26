@@ -5,10 +5,12 @@ from flask import jsonify
 
 stats = []
 events = pd.read_csv("events.csv")
-global curr_event
-global week
+curr_event = None
+week = 0
 def start():
     global week
+    global stats
+    global curr_event
     #[health, happiness, money, academics, ecopoints]
     stats = [90, 80, 0, 50, 0]
     #their money is randomized
@@ -28,6 +30,7 @@ def start():
     )
 
 def choice_made(choice):
+    global stats
     modifiers = None
     if (choice == 1):
         modifiers = curr_event[3].tolist()
@@ -79,6 +82,7 @@ def choice_made(choice):
 def get_event():
     #check if semester is over
     global week
+    global curr_event
     if (week > 16):
         return jsonify(
             {
