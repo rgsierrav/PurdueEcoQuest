@@ -10,7 +10,8 @@ const moneyDisplay = document.getElementById("money");
 const academicsDisplay = document.getElementById("academics");
 const ecoPointsDisplay = document.getElementById("ecopoints");
 
-let stats = {};
+//current game stats
+let stats = {}; 
 
 // Start the game
 startButton.addEventListener("click", async () => {
@@ -19,31 +20,31 @@ startButton.addEventListener("click", async () => {
     });
     const data = await response.json();
 
+    // move-in stats
     stats = data.stats;
     updateStats();
     displayEvent(data.event);
 });
 
-// Handle choices
-choice1Button.addEventListener("click", () => handleChoice("choice1"));
-choice2Button.addEventListener("click", () => handleChoice("choice2"));
+// Handle "Choice 1"
+choice1Button.addEventListener("click", () => handleChoice("/choice_1"));
 
-async function handleChoice(choice) {
-    const response = await fetch("http://127.0.0.1:5000/make_choice", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ choice }),
-    });
-    const data = await response.json();
+// Handle "Choice 2"
+choice2Button.addEventListener("click", () => handleChoice("/choice_2"));
 
-    stats = data.stats;
-    updateStats();
+// Fetch a new event
+async function fetchNewEvent() {
+    try {
+        const response = await fetch("http://127.0.0.1:5000/new_event", {
+            method: "POST",
+        });
+        if (!response.ok) throw new Error("Failed to fetch new event.");
+        const data = await response.json();
 
-    if (data.event) {
-        displayEvent(data.event);
-    } else {
-        alert(data.summary); // End of the game
-        location.reload();
+        displayEvent(data.event); // Display the new event
+    } catch (error) {
+        console.error("Error fetching new event:", error);
+        alert("An error occurred while fetching the new event. Please try again.");
     }
 }
 
