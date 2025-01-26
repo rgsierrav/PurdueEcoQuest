@@ -159,8 +159,8 @@ def summary():
     else:
         blurb += "Your health really took a toll this semester. \n\n"
 
-    blurb +=  f"You ended with ${stats[3]}. "
-    if (stats[3] > 0):
+    blurb +=  f"You ended with ${stats[2]}. "
+    if (stats[2] > 0):
         blurb += "You are glad you saved a little. \n\n"
     else:
         blurb += "Hopefully you make some money over break. \n\n"
