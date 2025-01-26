@@ -154,15 +154,22 @@ button:focus {
 }
 
 #academics-bar {
-    background-color: #ffc107; /* Purple */
+    background-color: #ffc107; /* Gold */
 }
 
 #ecopoints {
-    color: #20c997; /* Teal to match the bar color */
+    color: #009900; /* green */
     font-weight: bold;
 }
 
 #money {
     color: #006600; /* Green for moneys */
     font-weight: bold;
+}
+.gold {
+    color: #ffc107;
+}
+
+.green-text {
+    color: #006600;
 }
