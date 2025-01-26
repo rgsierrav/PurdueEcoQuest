@@ -1,6 +1,6 @@
 import pandas as pd
 import random
-
+import json
 from flask import jsonify
 
 stats = []
@@ -33,9 +33,9 @@ def choice_made(choice):
     global stats
     modifiers = None
     if (choice == 1):
-        modifiers = curr_event[3].tolist()
+        modifiers = curr_event[3]
     else:
-        modifiers = curr_event[5].tolist()
+        modifiers = curr_event[5]
 
     modifiers = modifiers.split(",")
 
@@ -103,7 +103,7 @@ def get_event():
     elif (stats[3] < 20):
         curr_event = events.iloc[3].tolist()
     else:
-        rand_event_index = random.randint(4, len(events))
+        rand_event_index = random.randint(4, len(events) - 1)
         curr_event = events.iloc[rand_event_index].tolist()
 
     return jsonify(

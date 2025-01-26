@@ -11,7 +11,7 @@ const academicsDisplay = document.getElementById("academics");
 const ecoPointsDisplay = document.getElementById("ecopoints");
 
 //current game stats
-let stats = {}; 
+let stats = {};
 
 // Start the game
 startButton.addEventListener("click", async () => {
@@ -19,9 +19,10 @@ startButton.addEventListener("click", async () => {
         method: "POST",
     });
     const data = await response.json();
-
+    console.log("Start clicked")
     // move-in stats
     stats = data.stats;
+    console.log(data)
     updateStats();
     displayEvent(data.event);
 });

@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask
+from flask_cors import CORS
 import Events as e
 
 """
@@ -6,6 +7,7 @@ import Events as e
 """
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/start_game", methods=['POST'])
 def start_game():
@@ -22,3 +24,11 @@ def choice_2():
 @app.route("/new_event", methods=['POST'])
 def new_event():
     return e.get_event()
+
+@app.errorhandler(404)
+def not_found(error):
+    return {"error": "Invalid route"}, 404
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
