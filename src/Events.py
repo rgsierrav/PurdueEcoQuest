@@ -43,6 +43,10 @@ def start():
     week = 1
     curr_event = events.iloc[0].tolist()
     curr_event = make_serializable(curr_event)  # Ensure JSON-serializable format
+    i = 0
+    for event in events:
+        events.loc[i, 'Boolean'] = False
+        i += 1
 
     return jsonify({
         "Name": curr_event[0],
