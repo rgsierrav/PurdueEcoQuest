@@ -6,6 +6,9 @@ import Events as e
 """
 
 app = Flask(__name__)
+@app.route("/")
+def home():
+    return render_template("index.html")
 
 @app.route("/start_game", methods=['POST'])
 def start_game():
