@@ -1,15 +1,15 @@
-from flask import Flask, render_template
-from flask_cors import CORS
+import flask
+#from flask_cors import CORS
 import Events as e
 
 """
     this file is to communicate with script.js
 """
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return flask.render_template('index.html')
 
 @app.route("/start_game", methods=['POST'])
 def start_game():
