@@ -1,5 +1,5 @@
 import flask
-#from flask_cors import CORS
+# from flask_cors import CORS
 import Events as e
 
 """
